@@ -14,22 +14,22 @@ export type Credential = {
   password: string;
 };
 function SignupScreen() {
-    const authCtx = useContext(AuthContext);
+  const authCtx = useContext(AuthContext);
   const [isAuthenticating, setIsAuthenticating] = useState(false);
   async function signupHandler({ email, password }: Credential) {
     setIsAuthenticating(true);
     try {
       const token = await createUser(email, password);
-      authCtx.authenticate(token)
+      authCtx.authenticate(token);
     } catch (error) {
       console.log(error);
       Alert.alert(
         "Authentication failed!",
         "Could not create User, Please check credentials or try again later!"
       );
-    }
 
-    setIsAuthenticating(false);
+      setIsAuthenticating(false);
+    }
   }
   if (isAuthenticating) {
     return <LoadingOverlay message="Wating create User" />;

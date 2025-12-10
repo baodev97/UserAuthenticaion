@@ -3,12 +3,13 @@ import {
   createNativeStackNavigator,
   NativeStackNavigationProp,
 } from "@react-navigation/native-stack";
+import { useContext } from "react";
 import { StatusBar } from "react-native";
 import { Colors } from "./constants/styles";
 import LoginScreen from "./screen/LoginScreen";
 import SignupScreen from "./screen/SignupScreen";
 import WelcomeScreen from "./screen/WelcomeScreen";
-import AuthContextProvider from "./store/auth-context";
+import AuthContextProvider, { AuthContext } from "./store/auth-context";
 
 export type RootStackParamList = {
   Login: undefined;
@@ -49,12 +50,15 @@ function AuthenticatedStack() {
 }
 
 function Navigation() {
+  const authCtx = useContext(AuthContext)
+  
   return (
-    <AuthContextProvider>
+    
       <NavigationContainer>
-        <AuthStack />
+        {!authCtx.isAuthenticated && <AuthStack />}
+        {authCtx.isAuthenticated && <AuthenticatedStack/>}
       </NavigationContainer>
-    </AuthContextProvider>
+  
   );
 }
 
@@ -62,7 +66,9 @@ export default function App() {
   return (
     <>
       <StatusBar barStyle={"light-content"} />
+      <AuthContextProvider>
       <Navigation />
+      </AuthContextProvider>
     </>
   );
 }

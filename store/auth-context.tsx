@@ -37,3 +37,4 @@ function AuthContextProvider({ children }: AuthContextProviderProps) {
 }
 
 export default AuthContextProvider;
+

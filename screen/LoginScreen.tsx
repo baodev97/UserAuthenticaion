@@ -28,9 +28,9 @@ function LoginScreen() {
         "Authentication failed!",
         "Could not log in, Please check credentials or try again later!"
       );
+      setIsAuthenticating(false);
     }
-
-    setIsAuthenticating(false);
+    
   }
   if (isAuthenticating) {
     return <LoadingOverlay message="Wating create User" />;
