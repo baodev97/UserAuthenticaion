@@ -1,0 +1,41 @@
+import LoadingOverlay from "@/components/UI/LoadingOverlay";
+import { AuthContext } from "@/store/auth-context";
+import { login } from "@/util/auth";
+import { useContext, useState } from "react";
+import { Alert } from "react-native";
+import AuthContent from "../components/Auth/AuthContent";
+
+// export type LoginScreenNavigationProp = NativeStackNavigationProp<
+//   RootStackParamList,
+//   "Login"
+// >;
+export type Credential = {
+  email: string;
+  password: string;
+};
+
+function LoginScreen() {
+    const authCtx = useContext(AuthContext);
+  const [isAuthenticating, setIsAuthenticating] = useState(false);
+  async function signupHandler({ email, password }: Credential) {
+    setIsAuthenticating(true);
+    try {
+      const token = await login(email, password);
+      authCtx.authenticate(token)
+    } catch (error) {
+      console.log(error);
+      Alert.alert(
+        "Authentication failed!",
+        "Could not log in, Please check credentials or try again later!"
+      );
+      setIsAuthenticating(false);
+    }
+    
+  }
+  if (isAuthenticating) {
+    return <LoadingOverlay message="Wating create User" />;
+  }
+  return <AuthContent isLogin onAuthenticate={signupHandler} />;
+}
+
+export default LoginScreen;
