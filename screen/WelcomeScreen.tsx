@@ -6,15 +6,15 @@ import { StyleSheet, Text, View } from 'react-native';
 function WelcomeScreen() {
     const [messageFetching, setMessagefetching] = useState<string|null>(null);
     const AuthCtx = useContext(AuthContext)
+    const token = AuthCtx.token
 
     useEffect(()=>{
-       axios.get('https://expensetrackapi-default-rtdb.asia-southeast1.firebasedatabase.app/message.json').then(
+       axios.get('https://expensetrackapi-default-rtdb.asia-southeast1.firebasedatabase.app/message.json?auth='+token).then(
         (res)=>{
             setMessagefetching(res.data)
         }
        )
-       
-    },[])
+    },[token])
 
   return (
     <View style={styles.rootContainer}>
