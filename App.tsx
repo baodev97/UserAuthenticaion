@@ -1,10 +1,19 @@
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createNativeStackNavigator, NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { StatusBar } from "react-native";
 import { Colors } from './constants/styles';
 import LoginScreen from "./screen/LoginScreen";
 import SignupScreen from "./screen/SignupScreen";
 import WelcomeScreen from "./screen/WelcomeScreen";
+
+
+export type RootStackParamList = {
+  Login:undefined,
+  Signup:undefined,
+  Welcome:undefined
+}
+export type RootStackNavigationProp =
+  NativeStackNavigationProp<RootStackParamList>;
 
 const Stack = createNativeStackNavigator();
 

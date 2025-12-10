@@ -1,19 +1,21 @@
+import { RootStackNavigationProp } from '@/App';
+import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
 import { Alert, StyleSheet, View } from 'react-native';
-
 import { Colors } from '../../constants/styles';
 import FlatButton from '../UI/FlatButton';
 import AuthForm, { Credentials } from './AuthForm';
 
 
 type AuthContentProps = {
-    isLogin:boolean,
+    isLogin?:boolean,
     onAuthenticate?:()=>void
 }
 
 
-function AuthContent({ isLogin, onAuthenticate }:AuthContentProps) {
 
+function AuthContent({ isLogin, onAuthenticate }:AuthContentProps) {
+const navigation = useNavigation<RootStackNavigationProp>();
   const [credentialsInvalid, setCredentialsInvalid] = useState({
     email: false,
     password: false,
@@ -23,6 +25,11 @@ function AuthContent({ isLogin, onAuthenticate }:AuthContentProps) {
 
   function switchAuthModeHandler() {
     // Todo
+    if(isLogin){
+        navigation.replace("Signup")
+    }else{
+        navigation.replace("Login")
+    }
   }
 
   function submitHandler(credentials:Credentials) {

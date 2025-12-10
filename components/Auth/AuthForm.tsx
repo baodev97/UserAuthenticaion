@@ -21,7 +21,7 @@ export type Credentials = {
 
 
 type AuthContentProps = {
-    isLogin:boolean,
+    isLogin?:boolean,
     onSubmit:({
       email,
       confirmEmail,
