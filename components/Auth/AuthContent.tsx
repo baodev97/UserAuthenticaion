@@ -1,4 +1,5 @@
 import { RootStackNavigationProp } from '@/App';
+import { Credential } from '@/screen/SignupScreen';
 import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
 import { Alert, StyleSheet, View } from 'react-native';
@@ -9,7 +10,7 @@ import AuthForm, { Credentials } from './AuthForm';
 
 type AuthContentProps = {
     isLogin?:boolean,
-    onAuthenticate?:()=>void
+    onAuthenticate?:({email,password}:Credential)=>void
 }
 
 
@@ -57,7 +58,10 @@ const navigation = useNavigation<RootStackNavigationProp>();
       });
       return;
     }
-    // onAuthenticate({ email, password });
+    
+    if(onAuthenticate){
+        onAuthenticate({ email, password });
+    }
   }
 
   return (
