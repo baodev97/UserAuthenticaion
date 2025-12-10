@@ -1,9 +1,10 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NavigationContainer } from "@react-navigation/native";
 import {
   createNativeStackNavigator,
   NativeStackNavigationProp,
 } from "@react-navigation/native-stack";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { StatusBar } from "react-native";
 import IconButton from "./components/UI/IconButton";
 import { Colors } from "./constants/styles";
@@ -75,12 +76,28 @@ function Navigation() {
   );
 }
 
+
+function Root (){
+  const authCtx = useContext(AuthContext)
+  useEffect(() => {
+    async function getTokenFromStorage() {
+      const storedToken = await AsyncStorage.getItem("token");
+      if (storedToken) {
+        authCtx.authenticate(storedToken)
+      }
+    }
+    getTokenFromStorage()
+  }, []);
+
+return <Navigation />
+}
+
 export default function App() {
   return (
     <>
       <StatusBar barStyle={"light-content"} />
       <AuthContextProvider>
-        <Navigation />
+        <Root/>
       </AuthContextProvider>
     </>
   );
