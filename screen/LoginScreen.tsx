@@ -1,8 +1,7 @@
-import { Text, View } from "react-native";
+import AuthContent from '../components/Auth/AuthContent';
 
-function LoginScreen (){
-    return<View>
-        <Text> Login Screen</Text>
-    </View>
+function LoginScreen() {
+  return <AuthContent isLogin />;
 }
+
 export default LoginScreen;
