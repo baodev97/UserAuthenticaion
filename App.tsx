@@ -1,17 +1,20 @@
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator, NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { NavigationContainer } from "@react-navigation/native";
+import {
+  createNativeStackNavigator,
+  NativeStackNavigationProp,
+} from "@react-navigation/native-stack";
 import { StatusBar } from "react-native";
-import { Colors } from './constants/styles';
+import { Colors } from "./constants/styles";
 import LoginScreen from "./screen/LoginScreen";
 import SignupScreen from "./screen/SignupScreen";
 import WelcomeScreen from "./screen/WelcomeScreen";
-
+import AuthContextProvider from "./store/auth-context";
 
 export type RootStackParamList = {
-  Login:undefined,
-  Signup:undefined,
-  Welcome:undefined
-}
+  Login: undefined;
+  Signup: undefined;
+  Welcome: undefined;
+};
 export type RootStackNavigationProp =
   NativeStackNavigationProp<RootStackParamList>;
 
@@ -22,7 +25,7 @@ function AuthStack() {
     <Stack.Navigator
       screenOptions={{
         headerStyle: { backgroundColor: Colors.primary500 },
-        headerTintColor: 'white',
+        headerTintColor: "white",
         contentStyle: { backgroundColor: Colors.primary100 },
       }}
     >
@@ -36,7 +39,7 @@ function AuthenticatedStack() {
     <Stack.Navigator
       screenOptions={{
         headerStyle: { backgroundColor: Colors.primary500 },
-        headerTintColor: 'white',
+        headerTintColor: "white",
         contentStyle: { backgroundColor: Colors.primary100 },
       }}
     >
@@ -47,17 +50,19 @@ function AuthenticatedStack() {
 
 function Navigation() {
   return (
-    <NavigationContainer>
-      <AuthStack />
-    </NavigationContainer>
+    <AuthContextProvider>
+      <NavigationContainer>
+        <AuthStack />
+      </NavigationContainer>
+    </AuthContextProvider>
   );
 }
 
 export default function App() {
   return (
     <>
-      <StatusBar barStyle={'light-content'}/>
-      <Navigation/>
+      <StatusBar barStyle={"light-content"} />
+      <Navigation />
     </>
   );
 }

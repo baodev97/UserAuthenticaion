@@ -1,7 +1,8 @@
 import AuthContent from "@/components/Auth/AuthContent";
 import LoadingOverlay from "@/components/UI/LoadingOverlay";
+import { AuthContext } from "@/store/auth-context";
 import { createUser } from "@/util/auth";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Alert } from "react-native";
 
 // export type SignupScreenNavigationProp = NativeStackNavigationProp<
@@ -13,11 +14,13 @@ export type Credential = {
   password: string;
 };
 function SignupScreen() {
+    const authCtx = useContext(AuthContext);
   const [isAuthenticating, setIsAuthenticating] = useState(false);
   async function signupHandler({ email, password }: Credential) {
     setIsAuthenticating(true);
     try {
-      await createUser(email, password);
+      const token = await createUser(email, password);
+      authCtx.authenticate(token)
     } catch (error) {
       console.log(error);
       Alert.alert(
