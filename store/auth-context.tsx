@@ -1,11 +1,12 @@
-import { createContext, ReactNode, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { createContext, ReactNode, useEffect, useState } from "react";
 
 type AuthContextProviderProps = {
   children: ReactNode;
 };
 type AuthContextinit = {
-  token: string|null
-  isAuthenticated: boolean
+  token: string | null;
+  isAuthenticated: boolean;
   authenticate: (token: string) => void;
   logout: () => void;
 };
@@ -22,6 +23,7 @@ function AuthContextProvider({ children }: AuthContextProviderProps) {
 
   function authenticate(token: string) {
     setAuthToken(token);
+    AsyncStorage.setItem("token", token);
   }
   function logout() {
     setAuthToken(null);
@@ -33,8 +35,17 @@ function AuthContextProvider({ children }: AuthContextProviderProps) {
     authenticate: authenticate,
     logout: logout,
   };
+
+  useEffect(() => {
+    async function getTokenFromStorage() {
+      const storageToken = await AsyncStorage.getItem("token");
+      if (storageToken) {
+        setAuthToken(storageToken)
+      }
+    }
+    getTokenFromStorage()
+  }, []);
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
 export default AuthContextProvider;
-
